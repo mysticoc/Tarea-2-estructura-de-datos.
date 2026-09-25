@@ -141,6 +141,22 @@ void cargar_base_de_datos() {
   printf("\nCarga exitosa. Se cargaron correctamente %d canciones a la memoria.\n", total_canciones_cargadas);
 }
 
+void buscar_por_genero_musical() {
+  char genero_ingresado[100];
+  printf("Ingrese el género musical a buscar (ej. anime, acoustic, salsa): ");
+  fgets(genero_ingresado, 100, stdin);
+  genero_ingresado[strcspn(genero_ingresado, "\n")] = 0;
+
+  MapPair *par_resultado = map_search(mapa_por_genero, genero_ingresado);
+
+  if (par_resultado != NULL) {
+    printf("\n=== Resultados para el género: '%s' ===\n", genero_ingresado);
+    List *lista_resultados = (List *)par_resultado->value;
+    mostrar_canciones_paginadas(lista_resultados);
+  } else {
+    printf("No se encontraron canciones asociadas al género '%s'.\n", genero_ingresado);
+  }
+}
 
 int main() {
   inicializar_estructuras_datos();
@@ -166,6 +182,11 @@ int main() {
       case 1:
         cargar_base_de_datos();
         break;
+      case 2:
+        buscar_por_genero_musical();
+        break;
+      default:
+        printf("Opción no válida. Por favor ingrese un número del 1 al 5.\n");
     }
   } while(opcion_menu_principal != 5);;
   return 0;
