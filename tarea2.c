@@ -96,7 +96,7 @@ void cargar_base_de_datos() {
   int indice_artistas = 2;
   int indice_album = 3;
   int indice_cancion = 4;
-  int indice_tempo = 15;
+  int indice_tempo = 18;
   int indice_genero = 20;
 
   int total_canciones_cargadas = 0;
@@ -158,6 +158,53 @@ void buscar_por_genero_musical() {
   }
 }
 
+void buscar_por_artista_musical() {
+  char artista_ingresado[250];
+  printf("Ingresa el nombre del artista a buscar: ");
+  fgets(artista_ingresado, 250, stdin);
+  artista_ingresado[strcspn(artista_ingresado, "\n")] = 0;
+
+  MapPair *par_resultado = map_search(mapa_por_artista, artista_ingresado);
+
+  if (par_resultado != NULL) {
+    printf("\n=== Canciones disponibles de : '%s' ===\n", artista_ingresado);
+    List *lista_resultados = (List *)par_resultado->value;
+    mostrar_canciones_paginadas(lista_resultados);
+  } else {
+    printf("No se encontraron coincidencias exactas para el artista '%s'.\n", artista_ingresado);
+  }
+}
+
+void buscar_por_rango_de_tempo() {
+  int opcion_tempo;
+  printf("\nSeleccione la categoria de velocidad deseada:\n");
+  printf(" 1. Lentas (Menos de 80 BPM)\n");
+  printf(" 2. Moderadas (Entre 80 y 120 BPM)\n");
+  printf(" 3. Rápidas (Más de 120 BPM)\n");
+
+  if (scanf("%d", &opcion_tempo) != 1) {
+    printf("Entrada inválida. Debe ingresar un número.\n");
+  }
+  int caracter_buffer;
+  while ((caracter_buffer = getchar()) != '\n' && caracter_buffer != EOF);
+  switch (opcion_tempo) {
+    case 1:
+      printf("\n=== Colección de Canciones Lentas ===\n");
+      mostrar_canciones_paginadas(lista_canciones_lentas);
+      break;
+    case 2:
+      printf("\n=== Colección de Canciones Moderadas ===\n");
+      mostrar_canciones_paginadas(lista_canciones_moderadas);
+      break;
+    case 3:
+      printf("\n=== Colección de Canciones Rápidas ===\n");
+      mostrar_canciones_paginadas(lista_canciones_rapidas);
+      break;
+    default:
+      printf("Opción de tempo fuera de rango. Seleccione 1, 2 o 3\n");
+  }
+}
+
 int main() {
   inicializar_estructuras_datos();
   int opcion_menu_principal;
@@ -185,9 +232,18 @@ int main() {
       case 2:
         buscar_por_genero_musical();
         break;
+      case 3:
+        buscar_por_artista_musical();
+        break;
+      case 4:
+        buscar_por_rango_de_tempo();
+        break;
+      case 5:
+        printf("Saliendo del programa con éxito.\n");
+        break;
       default:
         printf("Opción no válida. Por favor ingrese un número del 1 al 5.\n");
     }
-  } while(opcion_menu_principal != 5);;
+  } while(opcion_menu_principal != 5);
   return 0;
 }
