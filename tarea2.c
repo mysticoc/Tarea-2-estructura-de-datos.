@@ -210,14 +210,14 @@ int main() {
   int opcion_menu_principal;
 
   do {
-    printf("\n==========================\n");
+    printf("\n===========================\n");
     printf("        SPOTIFIND        ");
     printf("\n 1. Cargar Base de Datos(CSV)\n");
     printf(" 2. Buscar Canciones por Género\n");
     printf(" 3. Buscar Canciones por Artista\n");
     printf(" 4. Buscar Canciones por Velocidad (Tempo)\n");
     printf(" 5. Cerrar Aplicación\n");
-    printf("\n==========================\n");
+    printf("\n===========================\n");
     printf("Seleccione una opción: ");
     if (scanf("%d", &opcion_menu_principal) != 1) {
       opcion_menu_principal = 0;
